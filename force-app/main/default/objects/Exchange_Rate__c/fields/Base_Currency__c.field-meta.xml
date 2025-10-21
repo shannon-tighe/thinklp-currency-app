@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Base_Currency__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>The base currency used to determine an exchange rate.</description>
+    <inlineHelpText>The base currency used to determine an exchange rate.</inlineHelpText>
+    <label>Base Currency</label>
+    <referenceTo>Currency__c</referenceTo>
+    <relationshipLabel>Exchange Rates</relationshipLabel>
+    <relationshipName>Exchange_Rates</relationshipName>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Symbol__c</fullName>
+    <description>Symbol of the currency in the Latin Alphabet</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Symbol of the currency in the Latin Alphabet</inlineHelpText>
+    <label>Symbol</label>
+    <length>50</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

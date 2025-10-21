@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Name_Plural__c</fullName>
+    <description>Plural name for this currency</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Plural name for this currency</inlineHelpText>
+    <label>Name Plural</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

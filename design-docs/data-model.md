@@ -27,11 +27,33 @@
 ### Currency__c
 #### Custom Fields
 1) Symbol__c
+- Symbol of the currency in the Latin Alphabet
+- Char limit: 50
+
 2) Symbol_Native__c
+- Local/native symbol of the currency
+- Char limit: 80
+
 3) Decimal_Digits__c
+- Number of decimal digits this currency supports
+- Length: 3
+
 4) Rounding__c
-5) Code__c (unique, external Id)
+- Rounding strategy this currency uses for an evenly split currency unit
+- Length: 1
+
+5) Code__c
+- 3-letter code identifying this currency
+- Unique (case insensitive) / External Id / Required
+
 6) Name_Plural__c
+- Plural name for this currency
+
+7) Active__c
+- Denotes whether this currency is currently used or historical
+
+8) Currency_End_Date__c
+- Date this currency stopped being used
 
 ### ExchangeRate__c
 #### Custom Fields
@@ -46,17 +68,19 @@
 - Prevent deletion of parent record if child exists
 
 3) Key__c
-- a unique identifier for system use
+- Identifier for system use.
+- Unique / Required
 - (Base_Currency__c + '|' + Quote_Currency__c + '|' + Rate_Date__c)
 
 3) Rate__c
 - Exchange rate value
-- Number (16, 8)
+- Length: 9 / Decimals: 9
 
 4) Rate_Date__c
 - The calendar date that this was the exchange rate for.
 
 ### CurrencyAppConfig__mdt
+#### Custom Fields
 1) Persist_Latest_Ex_Rates__c
 - Tells the system to persist the latest exchange rate in the database whenever the API is queried. Creates a row for each Base + Quote combination when fetching the latest data.
 
@@ -74,6 +98,16 @@
 ???
 5) Show_Quota_In_Admin__c
 - displays API usage and quota info on-demand in the Admin console by calling the API directly. No database interaction.
+
+#### Rules
+1) Require a non-zero value in Retention_Days__c when Persist_Latest_Ex_Rates__c == TRUE
+AND(
+    Persist_Latest_Ex_Rates__c == TRUE,
+    OR(
+        ISBLANK( Retention_Days__c ),
+        Retention_Days__c = 0
+    )
+)
 
 ### ??? Job__c
 - Test UI for error handling against AsyncApexJob and CronTrigger before building out Job__c. Might be worth stipulating for future development if I end up going standard object route.
@@ -104,6 +138,3 @@ ExchangeRate__c is connected to Currency__c by two lookup relationships. One loo
 - An ExchangeRate__c record should never exists without both a Base_Currency__c and Quote_Currency__c.
 - Provides developer control over ExchangeRate__c permissions and visibility.
 - More flexible than Master-Detail for future changes.
-
-## Open Questions
-- ...

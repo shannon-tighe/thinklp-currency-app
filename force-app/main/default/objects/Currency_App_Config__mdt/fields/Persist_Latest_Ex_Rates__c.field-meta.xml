@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Persist_Latest_Ex_Rates__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Tells the system to persist the latest exchange rate in the database whenever the API is queried. Creates a row for each Base + Quote combination when fetching the latest data.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Tells the system to persist the latest exchange rate in the database whenever the API is queried. Creates a row for each Base + Quote combination when fetching the latest data.</inlineHelpText>
+    <label>Persist Latest Exchange Rates</label>
+    <type>Checkbox</type>
+</CustomField>
