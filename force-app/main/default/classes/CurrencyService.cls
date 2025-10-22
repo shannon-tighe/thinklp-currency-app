@@ -1,15 +1,18 @@
-public with sharing class CurrencyService implements Queueable {
+public with sharing class CurrencyService implements Queueable, Database.AllowsCallouts {
     
     public CurrencyService() {}
 
     public void execute(QueueableContext context) {
         sync();
+
+        // Schedule next job if Retention_Days__c is configured for the "settings" custom MD record
+        RatesService service = new RatesService();
+        if(service.isRetentionDaysConfigured()) {
+            System.enqueueJob(new RatesService());
+        }
     }
 
     public void sync() {
-
-        // TODO: is there really a point to checking status before proceeding since errors are gracefully handled already?
-
         // Check Usage Limits
         FreeCurrencyApiResponses.StatusResponse status = FreeCurrencyApiClient.getStatus();
         System.debug('Remaining calls: ' + FreeCurrencyApiClient.getRemainingApiCalls());
@@ -48,7 +51,7 @@ public with sharing class CurrencyService implements Queueable {
 
         // Upsert Existing Currencies
         System.debug(currenciesToUpsert.size() + ' currencies to upsert\n' + currenciesToUpsert);
-        upsert currenciesToUpsert Code__c;
+        Database.upsert(currenciesToUpsert, Currency__c.Fields.Code__c, false);
 
         // Deactivate historical currencies
         Set<Id> existingCurrencyIds = new Set<Id>();
@@ -57,7 +60,7 @@ public with sharing class CurrencyService implements Queueable {
         }
 
         List<Currency__c> currenciesToDeactivate = new List<Currency__c>();
-        for(Currency__c curr : [SELECT Active__c FROM Currency__c WHERE Id NOT IN :existingCurrencyIds]) {
+        for(Currency__c curr : [SELECT Active__c FROM Currency__c WHERE Id NOT IN :existingCurrencyIds AND Active__c = TRUE]) {
             curr.Active__c = false;
             currenciesToDeactivate.add(curr);
         }

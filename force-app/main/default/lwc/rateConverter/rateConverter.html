@@ -47,10 +47,20 @@
             </template>
 
             <!-- Printed Result -->
-            <template if:true={hasResult}>
-                <div class="slds-col slds-size_1-of-1 slds-m-top_medium">
+            <template if:true={hasConvertedAmount}>
+                <div class="slds-col slds-size_1-of-2 slds-m-top_medium">
                     <div class="result">
-                        {amount} {baseCode} = <strong>{result}</strong> {quoteCode}
+                        {amount} {baseCode} = <strong>{result.convertedAmount}</strong> {quoteCode}
+                        <template if:true={rateDate}>
+                            <span class="slds-text-color_weak"> (as of {rateDate})</span>
+                        </template>
+                    </div>
+                </div>
+            </template>
+            <template if:true={hasRate}>
+                <div class="slds-col slds-size_1-of-2 slds-m-top_medium">
+                    <div class="result">
+                        Exchange Rate ({baseCode} to {quoteCode}) = <strong>{result.rate}</strong>
                         <template if:true={rateDate}>
                             <span class="slds-text-color_weak"> (as of {rateDate})</span>
                         </template>

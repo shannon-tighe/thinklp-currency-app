@@ -1,7 +1,5 @@
 public inherited sharing class FreeCurrencyApiClient {
-    // TODO: build richer handling in validateResonses()
-    // TODO: consider adding Interface to allow dependency injection for mocks and tests rather than static methods. Static is fine for now tho - nice to have.
-
+    
     // Endpoints
     private static final String STATUS_PATH     = '/status';
     private static final String LATEST_PATH     = '/latest';

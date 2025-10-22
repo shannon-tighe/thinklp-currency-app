@@ -1,5 +1,6 @@
 public with sharing class RateConverterController {
 
+    // Lightweight DTO for initial data retrieval
     public class CurrencyCode {
         @AuraEnabled public String code { get; set; }
         @AuraEnabled public String name { get; set; }
@@ -9,10 +10,8 @@ public with sharing class RateConverterController {
             this.name = n;
         }
     }
-    /**
-     * Returns supported currency ISO codes with currency names from your org.
-     * Backed by your Currency__c table synced by CurrencyService.
-     */
+
+    // Returns Name and Code__c for all active currencies.
     @AuraEnabled(cacheable=true)
     public static List<CurrencyCode> getSupportedCurrencyCodes() {
         // Get 
@@ -29,40 +28,54 @@ public with sharing class RateConverterController {
         return codes;
     }
 
+    // DTO for conversion result.
+    // Supports future extensibility without breaking existing UI contract.
+    public class ConvertResult {
+        @AuraEnabled public Decimal convertedAmount { get; set; }
+        @AuraEnabled public Decimal rate { get; set; }
+        @AuraEnabled public Date rateDate { get; set; }
+        @AuraEnabled public String baseCode { get; set; }
+        @AuraEnabled public String quoteCode { get; set; }
+
+        public ConvertResult(Decimal convertedAmount, Decimal rate, Date rateDate, String baseCode, String quoteCode) {
+            this.convertedAmount = convertedAmount;
+            this.rate = rate;
+            this.rateDate = rateDate;
+            this.baseCode = baseCode;
+            this.quoteCode = quoteCode;
+        }
+    }
     /**
-     * Convert amount from -> to.
-     * - If rateDate is null, uses the "latest" endpoint.
-     * - Otherwise, uses "historical" for that date.
-     * Minimizes API calls by fetching only FROM and TO rates with base=USD,
-     * then deriving A->B as usd[B]/usd[A].
+     * Converts amount from Base to Quote currency
+     * - If rateDate is null, uses the "latest" endpoint, otherwise, uses "historical" for that date.
+     * - Minimizes API calls by checking database for existing records before calling API
+     * - Returns all relevant info including rate and convertedAmount
      */
     @AuraEnabled
-    public static Decimal convert(Decimal amount, String baseCode, String quoteCode, Date rateDate) {
+    public static ConvertResult convert(Decimal amount, String baseCode, String quoteCode, Date rateDate) {
         System.debug('Base Code ==> ' + baseCode);
         // Validate Required Parameters
         if (String.isBlank(baseCode) || String.isBlank(quoteCode)) {
             throw new AuraHandledException('Base and Quote currency codes are required.');
         }
-        // TODO: should amount be required? I'd like to provide a simple option to view exchange rate.
         if (amount == null) {
             throw new AuraHandledException('Amount is required.');
         }
 
-        // Default rate date to today
-        rateDate = rateDate ?? Date.today();
-        
-        // Normalize case and validate the comparison
-        String baseISO = baseCode.trim().toUpperCase();
-        String quoteISO   = quoteCode.trim().toUpperCase();
-        if (baseISO == quoteISO) {
-            return amount;
-        }
-
         // Check database for existing exchange rate, call API if not found
         // If no rate is found, default rate to 1 to return amount unchanged.
-        Decimal rate = RatesService.getRate(baseISO, quoteISO, rateDate) ?? 1;
+        RatesService service = new RatesService();
+        Decimal rate = service.getRate(baseCode, quoteCode, rateDate);
+        if(rate == null) {
+            throw new AuraHandledException(
+                'Apologies. No exchange rate found for ' + baseCode + ' to ' + quoteCode
+                + (rateDate == null ? '' : ' on ' + rateDate)
+                +'\nPlease try again later or contact your system administrator if the issue persists.'
+            );
+        }
         System.debug('Rate ==> ' + rate);
 
-        return rate * amount;
+        // Return DTO for easy handling and future extensability
+        return new ConvertResult((rate * amount), rate, rateDate, baseCode, quoteCode);
     }
 }
