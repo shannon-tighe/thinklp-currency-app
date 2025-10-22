@@ -16,6 +16,8 @@
     <label>Currency Management</label>
     <navType>Standard</navType>
     <tabs>Currency__c</tabs>
+    <tabs>Exchange_Rate__c</tabs>
+    <tabs>Currency_Converter</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Currency_Management_UtilityBar</utilityBar>
 </CustomApplication>

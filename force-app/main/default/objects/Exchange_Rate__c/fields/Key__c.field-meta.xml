@@ -3,7 +3,7 @@
     <fullName>Key__c</fullName>
     <caseSensitive>false</caseSensitive>
     <description>A unique identifier for system use.</description>
-    <externalId>false</externalId>
+    <externalId>true</externalId>
     <inlineHelpText>A unique identifier for system use.</inlineHelpText>
     <label>Key</label>
     <length>255</length>

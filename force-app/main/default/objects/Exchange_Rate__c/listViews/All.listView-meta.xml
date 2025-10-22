@@ -2,8 +2,10 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>All</fullName>
     <columns>NAME</columns>
-    <columns>Active__c</columns>
-    <columns>Code__c</columns>
+    <columns>Base_Currency__c</columns>
+    <columns>Quote_Currency__c</columns>
+    <columns>Rate__c</columns>
+    <columns>Key__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

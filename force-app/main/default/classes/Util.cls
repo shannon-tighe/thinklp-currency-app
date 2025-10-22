@@ -3,7 +3,7 @@ public class Util {
     public static void run() {
         HttpRequest req = new HttpRequest();
         
-        req.setEndpoint('callout:FreeCurrencyAPI/v1/status');
+        req.setEndpoint('callout:FreeCurrencyAPI/status');
         req.setMethod('GET');
         
         Http h = new Http();
