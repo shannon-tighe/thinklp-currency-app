@@ -73,7 +73,6 @@ public with sharing class RateConverterController {
                 +'\nPlease try again later or contact your system administrator if the issue persists.'
             );
         }
-        System.debug('Rate ==> ' + rate);
 
         // Return DTO for easy handling and future extensability
         return new ConvertResult((rate * amount), rate, rateDate, baseCode, quoteCode);

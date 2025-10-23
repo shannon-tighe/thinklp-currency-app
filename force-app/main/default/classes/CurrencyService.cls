@@ -7,7 +7,8 @@ public with sharing class CurrencyService implements Queueable, Database.AllowsC
 
         // Schedule next job if Retention_Days__c is configured for the "settings" custom MD record
         RatesService service = new RatesService();
-        if(service.isRetentionDaysConfigured()) {
+        Boolean isQueueable = Limits.getQueueableJobs() < Limits.getLimitQueueableJobs();
+        if(service.isRetentionDaysConfigured() && isQueueable) {
             System.enqueueJob(new RatesService());
         }
     }

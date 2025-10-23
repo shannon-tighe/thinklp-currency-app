@@ -14,15 +14,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CurrencyServiceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>FreeCurrencyApiClient</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>FreeCurrencyApiClientTest</apexClass>
+        <apexClass>FreeCurrencyApiClientMocks</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>FreeCurrencyApiHttpMock</apexClass>
+        <apexClass>FreeCurrencyApiClientTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -34,11 +38,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RateConverterControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RatesService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Util</apexClass>
+        <apexClass>RatesServiceTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <custom>false</custom>

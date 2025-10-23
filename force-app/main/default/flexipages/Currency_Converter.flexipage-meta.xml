@@ -7,19 +7,6 @@
                 <identifier>c_rateConverter</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>rateConverter</componentName>
-                <identifier>c_rateConverter2</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>Administrator</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
